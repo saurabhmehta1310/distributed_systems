@@ -1,0 +1,64 @@
+syntax="proto3";
+
+message app_entry{
+    int32 term=1;
+    int32 leaderId=2;
+    int32 prevLogTerm=3;
+    string entries=4;
+
+}
+
+message app_entry_res{
+    int32 term=1;
+    bool success=2;
+}
+
+message req_vote{
+    int32 term=1;
+    int32 candidateId=2;
+    int32 lastLogInd=3;
+    int32 lastLogTerm=4;
+
+}
+
+message req_vote_res{
+    int32 term=1;
+    bool vote_grant=2;
+}
+
+message client_findLead{
+    int32 not=1;
+
+}
+
+message res_findLead{
+    bool success=1;
+    int32 node=2;
+}
+
+message client_set{
+    string key=1;
+    string val=2;
+}
+
+message res_set{
+    bool success=1;
+}
+
+message client_get{
+    string key=1;
+}
+
+message res_get{
+    string value=1;
+    bool success=2;
+}
+
+service Node{
+    rpc request_vote(req_vote) returns (req_vote_res){};
+    rpc append_entry(app_entry) returns (app_entry_res){};
+    rpc findLead(client_findLead) returns (res_findLead){};
+    rpc sett(client_set) returns (res_set){};
+    rpc get(client_get) returns (res_get){};
+}
+
